@@ -1,0 +1,33 @@
+Machine Learning: An Overview
+
+Machine learning is a subset of artificial intelligence that enables systems to learn
+patterns from data and make predictions without being explicitly programmed. The field
+has three primary paradigms: supervised learning, unsupervised learning, and
+reinforcement learning.
+
+Supervised learning uses labeled training data to learn a mapping from inputs to outputs.
+Common algorithms include linear regression for continuous targets, logistic regression
+for binary classification, decision trees, random forests, and gradient boosting methods
+like XGBoost and LightGBM. The key challenge is balancing model complexity against
+overfitting -- a model that memorizes training data but fails to generalize.
+
+Unsupervised learning discovers hidden structure in unlabeled data. K-means clustering
+groups similar data points together, while principal component analysis (PCA) reduces
+dimensionality by finding the directions of maximum variance. These techniques are
+valuable for exploratory data analysis and feature engineering.
+
+The machine learning workflow follows a structured pipeline: data collection, exploratory
+data analysis, feature engineering, model selection, training, evaluation, and
+deployment. Cross-validation splits data into training and validation folds to estimate
+how well a model generalizes. Metrics like accuracy, precision, recall, F1 score, and
+AUC-ROC quantify model performance for classification tasks.
+
+Scikit-learn is the most widely used Python library for classical machine learning. It
+provides consistent APIs for preprocessing, model fitting, prediction, and evaluation.
+For larger datasets, libraries like Dask-ML and Spark MLlib distribute computation
+across multiple cores or machines.
+
+Feature engineering -- the process of transforming raw data into informative inputs --
+often matters more than model choice. Techniques include one-hot encoding for categorical
+variables, standardization for numeric features, and polynomial features for capturing
+nonlinear relationships.

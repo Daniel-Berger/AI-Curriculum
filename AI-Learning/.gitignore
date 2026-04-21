@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data & Models
+data/
+*.csv
+*.tsv
+*.h5
+*.pkl
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.gguf
+*.onnx
+models/
+
+# ML artifacts
+mlruns/
+wandb/
+outputs/
+checkpoints/
+
+# Environment & Secrets
+.env
+.env.local
+*.key
+credentials.json
+
+# Docker
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vector DB local storage
+chroma_db/
+faiss_index/

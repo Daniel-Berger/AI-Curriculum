@@ -1,0 +1,54 @@
+# =============================================================================
+# Docker Compose for RAG System
+# =============================================================================
+# Services:
+#   - app: The RAG FastAPI application
+#   - vectordb: ChromaDB vector database
+#   - streamlit: Streamlit UI (optional)
+# =============================================================================
+
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - VECTOR_DB_HOST=vectordb
+      - VECTOR_DB_PORT=8001
+      - LOG_LEVEL=info
+    depends_on:
+      vectordb:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  vectordb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  streamlit:
+    build: .
+    command: ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    ports:
+      - "8501:8501"
+    environment:
+      - RAG_API_URL=http://app:8000
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  chroma_data:

@@ -1,0 +1,32 @@
+LLM Architectures: From Transformers to Modern Language Models
+
+Large Language Models (LLMs) are neural networks trained on massive text corpora to
+understand and generate human language. The foundation of modern LLMs is the Transformer
+architecture, introduced in the 2017 paper "Attention Is All You Need" by Vaswani et al.
+
+The Transformer replaces recurrent connections with self-attention mechanisms, allowing
+the model to process all tokens in a sequence simultaneously rather than sequentially.
+Self-attention computes a weighted sum of value vectors, where weights are determined by
+the compatibility between query and key vectors. Multi-head attention runs several
+attention functions in parallel, enabling the model to attend to information from
+different representation subspaces.
+
+Modern LLM architectures come in three main variants. Encoder-only models like BERT use
+bidirectional attention and excel at understanding tasks such as classification and
+named entity recognition. Decoder-only models like GPT, Claude, and LLaMA use causal
+(left-to-right) attention and are optimized for text generation. Encoder-decoder models
+like T5 and BART combine both components and perform well on sequence-to-sequence tasks
+like translation and summarization.
+
+Training an LLM involves two phases. Pre-training uses self-supervised objectives --
+typically next-token prediction for decoder models or masked language modeling for
+encoders -- on trillions of tokens. Fine-tuning adapts the pre-trained model to specific
+tasks using smaller, curated datasets. Techniques like LoRA (Low-Rank Adaptation) and
+QLoRA enable parameter-efficient fine-tuning by updating only a small fraction of the
+model's weights.
+
+Inference optimization techniques include KV-cache for avoiding redundant computation,
+quantization (reducing weight precision from FP16 to INT8 or INT4), and speculative
+decoding. Context windows have grown from 2,048 tokens in early GPT models to over
+200,000 tokens in recent Claude models, enabled by advances in positional encoding
+schemes like RoPE (Rotary Position Embedding) and ALiBi.

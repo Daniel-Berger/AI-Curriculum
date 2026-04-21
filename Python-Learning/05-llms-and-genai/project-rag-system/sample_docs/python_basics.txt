@@ -1,0 +1,29 @@
+Python Basics: A Quick Overview
+
+Python is a high-level, interpreted programming language created by Guido van Rossum
+and first released in 1991. It emphasizes code readability and uses significant
+indentation to delimit code blocks rather than curly braces.
+
+Python supports multiple programming paradigms including procedural, object-oriented,
+and functional programming. Its dynamic typing system and automatic memory management
+make it particularly approachable for beginners while remaining powerful enough for
+large-scale applications.
+
+Key features of Python include list comprehensions, generator expressions, and a rich
+standard library often described as "batteries included." The language provides built-in
+data structures like lists, dictionaries, sets, and tuples that cover most common use
+cases without external dependencies.
+
+Python's package ecosystem, centered around PyPI (Python Package Index), contains over
+400,000 packages. Tools like pip, uv, and conda make dependency management
+straightforward. Virtual environments isolate project dependencies, preventing version
+conflicts across different projects.
+
+Type hints, introduced in Python 3.5 via PEP 484, allow developers to annotate function
+signatures and variables with expected types. While Python remains dynamically typed at
+runtime, type checkers like mypy can catch type errors before execution. This is similar
+to how Swift enforces types at compile time, but Python's approach is opt-in and gradual.
+
+The Python community follows the principle captured in the Zen of Python: "There should
+be one -- and preferably only one -- obvious way to do it." This philosophy leads to
+consistent, readable codebases across the ecosystem.
