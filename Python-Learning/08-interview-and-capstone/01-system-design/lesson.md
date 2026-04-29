@@ -1203,3 +1203,449 @@ class ReviewQueue:
 
 6. **Relate to your experience.** "This is similar to how iOS apps handle offline
    sync -- you need an optimistic UI with eventual consistency."
+
+---
+
+## SE-Specific System Design Problems
+
+The following problems focus on system design scenarios commonly encountered in
+Solutions Engineer interviews. Unlike the problems above (which emphasize pure
+infrastructure), these emphasize customer constraints, multi-tenant architectures,
+integration patterns, and business requirements that SEs must navigate daily.
+
+---
+
+### Problem 6: Multi-Tenant AI Platform
+
+**Prompt**: "Design a multi-tenant AI platform that serves multiple enterprise
+customers with different models, data isolation requirements, and usage patterns."
+
+### Step 1: Requirements Clarification
+
+**Functional Requirements:**
+- Serve multiple enterprise customers (tenants) from a single platform
+- Each tenant can configure their own models, prompts, and workflows
+- Tenants can bring their own fine-tuned models
+- Real-time inference API with streaming support
+- Batch processing for large-volume offline jobs
+- Usage tracking and billing per tenant
+
+**Non-Functional Requirements:**
+- Strong data isolation between tenants (no data leakage)
+- Tenant-specific rate limits and quotas
+- 99.9% availability per tenant (one tenant's issues cannot affect others)
+- P99 latency < 2 seconds for real-time inference
+- Support 100+ enterprise tenants, scaling to 1,000+
+- SOC 2 and HIPAA compliance
+
+**Clarifying Questions to Ask:**
+- "What level of data isolation is required? Logical or physical?"
+- "Do tenants need dedicated GPU resources or can they share?"
+- "What's the expected request volume per tenant? How bursty is traffic?"
+- "Do tenants need to deploy custom models or only use pre-built ones?"
+
+### Step 2: High-Level Architecture
+
+```
+                    ┌─────────────────────────────────┐
+                    │          API Gateway             │
+                    │   (Auth, Rate Limiting, Routing) │
+                    └──────────┬──────────────────────┘
+                               │
+                    ┌──────────▼──────────────────────┐
+                    │      Tenant Router Service       │
+                    │  (Config lookup, model routing)   │
+                    └──────────┬──────────────────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              │                │                │
+    ┌─────────▼──────┐ ┌──────▼───────┐ ┌──────▼───────┐
+    │  Shared Model   │ │  Dedicated   │ │   Batch      │
+    │  Pool (GPU)     │ │  Model Pool  │ │   Processing │
+    │  (Small/Med     │ │  (Enterprise │ │   Queue      │
+    │   tenants)      │ │   tenants)   │ │              │
+    └────────┬────────┘ └──────┬───────┘ └──────┬───────┘
+             │                 │                │
+    ┌────────▼─────────────────▼────────────────▼──────┐
+    │              Data Layer (Per-Tenant)              │
+    │  ┌──────────┐ ┌───────────┐ ┌──────────────┐     │
+    │  │ Vector DB│ │ Model     │ │ Prompt/Config│     │
+    │  │ (tenant  │ │ Registry  │ │ Store        │     │
+    │  │  scoped) │ │           │ │              │     │
+    │  └──────────┘ └───────────┘ └──────────────┘     │
+    └──────────────────────────────────────────────────┘
+             │
+    ┌────────▼─────────────────────────────────────────┐
+    │           Observability & Billing                │
+    │  ┌──────────┐ ┌───────────┐ ┌──────────────┐     │
+    │  │ Usage    │ │ Metrics/  │ │ Audit        │     │
+    │  │ Metering │ │ Logging   │ │ Log          │     │
+    │  └──────────┘ └───────────┘ └──────────────┘     │
+    └──────────────────────────────────────────────────┘
+```
+
+### Step 3: Component Deep-Dive
+
+**Tenant Router Service:**
+This is the brain of the system. For each request, it:
+1. Looks up the tenant's configuration (which model, which prompt template, which parameters)
+2. Determines the routing tier (shared pool vs. dedicated pool)
+3. Applies tenant-specific rate limits
+4. Routes to the appropriate inference backend
+
+```python
+class TenantRouter:
+    def __init__(self, config_store, rate_limiter):
+        self.config_store = config_store
+        self.rate_limiter = rate_limiter
+
+    async def route_request(self, tenant_id: str, request: InferenceRequest):
+        # 1. Get tenant config
+        config = await self.config_store.get_tenant_config(tenant_id)
+        if not config:
+            raise TenantNotFoundError(tenant_id)
+
+        # 2. Check rate limits
+        if not await self.rate_limiter.check(tenant_id, request.estimated_tokens):
+            raise RateLimitExceededError(tenant_id, config.rate_limit)
+
+        # 3. Select model and backend
+        model = config.model_mapping.get(request.model_alias, config.default_model)
+        backend = self._select_backend(config.tier, model, request.priority)
+
+        # 4. Apply tenant-specific prompt template
+        processed_request = self._apply_template(request, config.prompt_templates)
+
+        # 5. Route to backend
+        return await backend.inference(processed_request, tenant_context={
+            "tenant_id": tenant_id,
+            "isolation_level": config.isolation_level,
+            "data_region": config.data_region,
+        })
+
+    def _select_backend(self, tier: str, model: str, priority: str):
+        if tier == "dedicated":
+            return self.dedicated_pool.get_backend(model)
+        elif priority == "batch":
+            return self.batch_queue
+        else:
+            return self.shared_pool.get_backend(model)
+```
+
+**Data Isolation Strategy:**
+
+Three tiers based on customer requirements and contract value:
+
+| Tier | Isolation Level | How It Works | Use Case |
+|------|----------------|--------------|----------|
+| Standard | Logical | Shared DB with tenant_id column, row-level security | SMB customers |
+| Premium | Schema | Separate database schema per tenant, shared cluster | Mid-market |
+| Enterprise | Physical | Dedicated database instance and GPU allocation | Enterprise/regulated |
+
+```python
+class DataIsolationManager:
+    def get_connection(self, tenant_id: str, isolation_level: str):
+        if isolation_level == "physical":
+            return self._get_dedicated_connection(tenant_id)
+        elif isolation_level == "schema":
+            conn = self._get_shared_connection()
+            conn.execute(f"SET search_path TO tenant_{tenant_id}")
+            return conn
+        else:
+            conn = self._get_shared_connection()
+            conn.set_tenant_filter(tenant_id)  # Row-level security
+            return conn
+```
+
+**Usage Metering and Billing:**
+
+```python
+class UsageMeter:
+    """Track usage per tenant for billing and rate limiting."""
+
+    async def record_usage(self, tenant_id: str, usage: UsageRecord):
+        await self.usage_store.insert({
+            "tenant_id": tenant_id,
+            "timestamp": datetime.utcnow(),
+            "model": usage.model,
+            "input_tokens": usage.input_tokens,
+            "output_tokens": usage.output_tokens,
+            "latency_ms": usage.latency_ms,
+            "request_type": usage.request_type,  # real-time or batch
+        })
+
+        # Update running totals for rate limiting
+        await self.rate_limiter.update_usage(
+            tenant_id,
+            tokens=usage.input_tokens + usage.output_tokens,
+        )
+```
+
+### Step 4: Scaling Discussion
+
+**Noisy Neighbor Prevention:**
+- Dedicated GPU queues for enterprise tenants prevent resource contention
+- Shared pool uses fair-share scheduling (weighted by contract tier)
+- Circuit breakers per tenant: if one tenant causes errors, isolate them
+- Request queuing with per-tenant priority lanes
+
+**Horizontal Scaling:**
+- Tenant Router is stateless -- scale horizontally behind a load balancer
+- Model pools scale independently based on GPU utilization
+- Add new GPU nodes without downtime using rolling deployment
+- Batch processing queue auto-scales based on queue depth
+
+**Multi-Region:**
+- Deploy in US, EU, and APAC regions for data residency
+- Tenant config specifies allowed regions
+- Cross-region model replication for availability
+
+### Step 5: Tradeoffs
+
+| Decision | Tradeoff |
+|----------|----------|
+| Shared vs dedicated GPU pools | Cost efficiency vs isolation guarantees |
+| Logical vs physical data isolation | Operational simplicity vs security assurance |
+| Per-tenant model instances | Better isolation but higher cost and cold-start latency |
+| Centralized vs distributed config | Simpler management vs single point of failure |
+| Batch queue priority | Cost savings for tenants vs complexity in scheduling |
+
+**What makes this an SE-specific problem:**
+Unlike a pure infrastructure design, the SE must consider how to onboard new
+tenants quickly, how to handle tenant-specific customization without code changes,
+and how to explain the isolation guarantees to security-conscious customers during
+the sales process.
+
+---
+
+### Problem 7: Customer Onboarding Pipeline
+
+**Prompt**: "Design an automated customer onboarding pipeline for an AI API company
+that takes a new customer from sign-up to production deployment in under 2 weeks."
+
+### Step 1: Requirements Clarification
+
+**Functional Requirements:**
+- Self-service sign-up with immediate API key provisioning
+- Guided onboarding flow (documentation, tutorials, sandbox environment)
+- Automated POC environment setup with sample data
+- Technical validation checkpoints (first API call, first integration, first production call)
+- SE assignment and engagement triggers
+- Customer health monitoring from day 1
+- Integration with CRM (Salesforce), support (Zendesk), and billing (Stripe)
+
+**Non-Functional Requirements:**
+- Time to first API call: < 5 minutes after sign-up
+- Time to production: < 2 weeks for standard use cases
+- Support 500 new customers per month
+- Personalized experience based on customer segment (startup, mid-market, enterprise)
+- Track every customer interaction for analytics
+
+**Clarifying Questions:**
+- "What's the breakdown of self-service vs sales-assisted customers?"
+- "What are the most common reasons customers get stuck during onboarding?"
+- "How do we define 'production deployment' for tracking purposes?"
+- "What existing tools does the team use today?"
+
+### Step 2: High-Level Architecture
+
+```
+    ┌──────────────────────────────────────────────────────┐
+    │                  Customer Journey                    │
+    │  Sign-up → Sandbox → Build → Validate → Production  │
+    └──────────┬───────────────────────────────────────────┘
+               │
+    ┌──────────▼──────────────────────────────────────────┐
+    │             Onboarding Orchestrator                  │
+    │   (State machine tracking each customer's progress)  │
+    └──────────┬──────────────────────────────────────────┘
+               │
+    ┌──────────┼──────────────┬──────────────────┐
+    │          │              │                  │
+    ▼          ▼              ▼                  ▼
+┌────────┐ ┌────────┐ ┌──────────┐ ┌──────────────┐
+│Provisio│ │ Guide  │ │ Health   │ │  SE          │
+│ning    │ │ Engine │ │ Monitor  │ │  Assignment  │
+│Service │ │        │ │          │ │  Engine      │
+└───┬────┘ └───┬────┘ └────┬─────┘ └──────┬───────┘
+    │          │           │              │
+    ▼          ▼           ▼              ▼
+┌────────┐ ┌────────┐ ┌──────────┐ ┌──────────────┐
+│API Keys│ │Docs/   │ │Usage     │ │CRM           │
+│Sandbox │ │Tutoria │ │Analytics │ │(Salesforce)  │
+│Env     │ │ls/SDK  │ │Alerts    │ │Slack/Email   │
+└────────┘ └────────┘ └──────────┘ └──────────────┘
+```
+
+### Step 3: Component Deep-Dive
+
+**Onboarding State Machine:**
+
+Each customer progresses through defined stages with automated triggers:
+
+```python
+from enum import Enum
+from datetime import datetime, timedelta
+
+class OnboardingStage(Enum):
+    SIGNED_UP = "signed_up"
+    API_KEY_CREATED = "api_key_created"
+    FIRST_API_CALL = "first_api_call"
+    SANDBOX_ACTIVE = "sandbox_active"
+    INTEGRATION_STARTED = "integration_started"
+    FIRST_PRODUCTION_CALL = "first_production_call"
+    PRODUCTION_STABLE = "production_stable"
+    STALLED = "stalled"
+
+class OnboardingOrchestrator:
+    """State machine for customer onboarding."""
+
+    STAGE_SLA = {
+        OnboardingStage.SIGNED_UP: timedelta(minutes=5),      # Should create key quickly
+        OnboardingStage.API_KEY_CREATED: timedelta(hours=24),  # Should make first call in 24h
+        OnboardingStage.FIRST_API_CALL: timedelta(days=3),     # Should explore sandbox in 3 days
+        OnboardingStage.SANDBOX_ACTIVE: timedelta(days=7),     # Should start integrating in a week
+        OnboardingStage.INTEGRATION_STARTED: timedelta(days=14), # Should hit production in 2 weeks
+    }
+
+    async def advance_stage(self, customer_id: str, event: str):
+        customer = await self.get_customer(customer_id)
+        new_stage = self._determine_stage(customer, event)
+
+        if new_stage != customer.current_stage:
+            await self._update_stage(customer_id, new_stage)
+            await self._trigger_actions(customer_id, new_stage)
+            await self._notify_stakeholders(customer_id, new_stage)
+
+    async def check_stalled_customers(self):
+        """Run periodically to detect customers stuck at a stage."""
+        for customer in await self.get_active_onboarding():
+            sla = self.STAGE_SLA.get(customer.current_stage)
+            if sla and customer.stage_entered_at + sla < datetime.utcnow():
+                await self._handle_stall(customer)
+
+    async def _handle_stall(self, customer):
+        """Escalate stalled customers based on segment."""
+        if customer.segment == "enterprise":
+            # Immediately notify assigned SE
+            await self.notify_se(customer, "Customer stalled at {customer.current_stage}")
+        elif customer.segment == "mid_market":
+            # Send automated help email, notify SE if still stalled in 24h
+            await self.send_help_email(customer)
+        else:
+            # Self-service: send automated email with relevant resources
+            await self.send_help_email(customer)
+```
+
+**SE Assignment Engine:**
+
+Automatically assign SEs based on customer segment, industry, and SE capacity:
+
+```python
+class SEAssignmentEngine:
+    """Assign SEs to customers based on fit and capacity."""
+
+    async def assign_se(self, customer: Customer) -> str:
+        if customer.segment == "self_service":
+            return None  # No SE assigned for self-service
+
+        # Get available SEs
+        available_ses = await self.get_available_ses()
+
+        # Score each SE for this customer
+        scored = []
+        for se in available_ses:
+            score = self._calculate_fit_score(se, customer)
+            scored.append((se, score))
+
+        scored.sort(key=lambda x: x[1], reverse=True)
+        best_se = scored[0][0]
+
+        await self.create_assignment(best_se.id, customer.id)
+        await self.notify_se(best_se, customer)
+        await self.update_crm(customer.id, se_id=best_se.id)
+
+        return best_se.id
+
+    def _calculate_fit_score(self, se, customer) -> float:
+        score = 0.0
+
+        # Industry expertise (40% weight)
+        if customer.industry in se.industry_expertise:
+            score += 40
+
+        # Current capacity (30% weight) -- fewer accounts = higher score
+        capacity_score = max(0, 30 - (se.active_accounts * 2))
+        score += capacity_score
+
+        # Timezone alignment (15% weight)
+        if abs(se.timezone_offset - customer.timezone_offset) <= 3:
+            score += 15
+
+        # Language match (15% weight)
+        if customer.preferred_language in se.languages:
+            score += 15
+
+        return score
+```
+
+**Health Monitoring from Day 1:**
+
+```python
+class OnboardingHealthMonitor:
+    """Monitor customer health signals during onboarding."""
+
+    async def daily_health_check(self):
+        for customer in await self.get_onboarding_customers():
+            signals = {
+                "api_calls_today": await self.get_api_calls(customer.id, days=1),
+                "api_calls_week": await self.get_api_calls(customer.id, days=7),
+                "errors_today": await self.get_error_count(customer.id, days=1),
+                "docs_pages_viewed": await self.get_docs_views(customer.id),
+                "support_tickets": await self.get_ticket_count(customer.id),
+                "days_since_signup": (datetime.utcnow() - customer.signup_date).days,
+            }
+
+            health = self._assess_health(signals)
+
+            if health["status"] == "at_risk":
+                await self._escalate(customer, health["reasons"])
+            elif health["status"] == "engaged":
+                await self._log_positive_signal(customer, health["reasons"])
+```
+
+### Step 4: Scaling Discussion
+
+**Automation vs. Human Touch:**
+- Self-service customers (80% of volume): Fully automated onboarding
+- Mid-market (15%): Automated with SE check-ins at key milestones
+- Enterprise (5%): SE-led with white-glove onboarding
+
+**Personalization at Scale:**
+- Segment customers by industry, use case, and technical maturity
+- Auto-select relevant tutorials, sample code, and documentation
+- Personalized email sequences based on onboarding stage and behavior
+
+**Integration Points:**
+- CRM (Salesforce): Customer data, SE assignments, deal tracking
+- Support (Zendesk): Ticket creation, escalation workflows
+- Billing (Stripe): Usage metering, plan upgrades
+- Analytics (Mixpanel/Amplitude): Funnel tracking, drop-off analysis
+- Communication (Slack/Email): Automated notifications, SE alerts
+
+### Step 5: Tradeoffs
+
+| Decision | Tradeoff |
+|----------|----------|
+| Fully automated vs SE-led onboarding | Scale vs personalization |
+| Aggressive stall detection (24h) vs relaxed (7d) | Customer experience vs false alarms |
+| Auto-assign SE at signup vs at first integration | Earlier relationship vs wasted SE time |
+| Rich sandbox vs minimal sandbox | Better experience vs infrastructure cost |
+| Proactive outreach vs wait for customer to ask | Customer appreciation vs annoyance |
+
+**What makes this an SE-specific problem:**
+The SE must understand the customer journey from a business perspective, not just
+a technical one. The system must balance automation (for scale) with human touch
+(for enterprise customers). The SE needs to explain to customers why certain
+checkpoints exist and how the onboarding process is designed to get them to
+production quickly and safely.

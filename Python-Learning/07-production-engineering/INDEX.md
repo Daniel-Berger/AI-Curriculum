@@ -1,4 +1,4 @@
-# Phase 6: Production Engineering - Complete Index
+# Phase 7: Production Engineering - Complete Index
 
 ## Quick Navigation
 
@@ -177,7 +177,7 @@
 
 ### Option 1: Sequential Learning
 ```bash
-cd 06-production-engineering
+cd 07-production-engineering
 
 # Start with FastAPI
 cat 02-fastapi-advanced/lesson.md
@@ -375,11 +375,11 @@ isort app
 ## File Paths
 
 All paths are absolute:
-- Lessons: `/Users/danielberger/Projects/Python-Learning/06-production-engineering/{module}/lesson.md`
-- Exercises: `/Users/danielberger/Projects/Python-Learning/06-production-engineering/{module}/exercises.py`
-- Solutions: `/Users/danielberger/Projects/Python-Learning/06-production-engineering/{module}/solutions.py`
-- Project: `/Users/danielberger/Projects/Python-Learning/06-production-engineering/project/`
-- Quiz: `/Users/danielberger/Projects/Python-Learning/06-production-engineering/quiz.md`
+- Lessons: `/Users/danielberger/Projects/Python-Learning/07-production-engineering/{module}/lesson.md`
+- Exercises: `/Users/danielberger/Projects/Python-Learning/07-production-engineering/{module}/exercises.py`
+- Solutions: `/Users/danielberger/Projects/Python-Learning/07-production-engineering/{module}/solutions.py`
+- Project: `/Users/danielberger/Projects/Python-Learning/07-production-engineering/project/`
+- Quiz: `/Users/danielberger/Projects/Python-Learning/07-production-engineering/quiz.md`
 
 ## Next Steps After Completion
 
@@ -405,7 +405,7 @@ All paths are absolute:
 
 ---
 
-**Phase 6 Status:** ✅ COMPLETE
+**Phase 7 Status:** ✅ COMPLETE
 **Last Updated:** 2024
 **Total Files:** 34
 **Ready for Use:** YES

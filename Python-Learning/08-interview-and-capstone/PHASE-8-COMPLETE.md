@@ -1,13 +1,13 @@
-# Phase 7: Interview Prep & Capstone - COMPLETE
+# Phase 8: Interview Prep & Capstone - COMPLETE
 
-All files for Phase 7 have been successfully created. This comprehensive capstone prepares you for real-world ML engineering interviews and demonstrates a complete production system.
+All files for Phase 8 have been successfully created. This comprehensive capstone prepares you for real-world ML engineering interviews and demonstrates a complete production system.
 
 ---
 
 ## What Was Created
 
 ### 02-Coding Challenges
-**Path**: `/07-interview-and-capstone/02-coding-challenges/`
+**Path**: `/08-interview-and-capstone/02-coding-challenges/`
 
 - **lesson.md** (300 lines): Comprehensive guide to interview coding patterns
   - Data manipulation strategies (nested JSON, time series, pivoting, merging, cleaning)
@@ -30,7 +30,7 @@ All files for Phase 7 have been successfully created. This comprehensive capston
   - Usage examples
 
 ### 03-ML Fundamentals Review
-**Path**: `/07-interview-and-capstone/03-ml-fundamentals-review/`
+**Path**: `/08-interview-and-capstone/03-ml-fundamentals-review/`
 
 - **lesson.md** (500+ lines): Night-before interview speed review
   - Python quick reference (built-ins, comprehensions, decorators)
@@ -49,7 +49,7 @@ All files for Phase 7 have been successfully created. This comprehensive capston
   - Phase 4: Bias-variance, metrics, regularization, clustering
   - Phase 5: Neural network architecture, backprop, transformers
   - Phase 6: Token economics, prompting strategies
-  - Phase 7: Experiment tracking, deployment considerations
+  - Phase 8: Experiment tracking, deployment considerations
 
 - **solutions.py** (500+ lines): Concise answers with explanations
   - Each answer includes rationale
@@ -57,7 +57,7 @@ All files for Phase 7 have been successfully created. This comprehensive capston
   - Algorithm decision tree (which algorithm for which problem)
 
 ### 04-Behavioral Prep
-**Path**: `/07-interview-and-capstone/04-behavioral-prep/`
+**Path**: `/08-interview-and-capstone/04-behavioral-prep/`
 
 - **lesson.md** (400+ lines): Complete behavioral interview guide
   - STAR method with detailed example
@@ -71,7 +71,7 @@ All files for Phase 7 have been successfully created. This comprehensive capston
   - Red flags to watch
 
 ### Capstone: RAG Chat System
-**Path**: `/07-interview-and-capstone/capstone/`
+**Path**: `/08-interview-and-capstone/capstone/`
 
 Complete production-ready Retrieval-Augmented Generation system demonstrating:
 
@@ -190,7 +190,7 @@ Complete production-ready Retrieval-Augmented Generation system demonstrating:
 
 ---
 
-## How to Use Phase 7
+## How to Use Phase 8
 
 ### Week 1: Coding Challenges
 1. Read `02-coding-challenges/lesson.md` (common patterns)
@@ -221,7 +221,7 @@ Complete production-ready Retrieval-Augmented Generation system demonstrating:
 
 ## Key Learning Outcomes
 
-By completing Phase 7, you will:
+By completing Phase 8, you will:
 
 ### Technical Interview Ready
 - ✓ Solve coding challenges across 4 domains (data, APIs, algorithms, ML)
@@ -255,7 +255,7 @@ By completing Phase 7, you will:
 
 ### 02-Coding Challenges
 ```
-/Users/danielberger/Projects/Python-Learning/07-interview-and-capstone/02-coding-challenges/
+/Users/danielberger/Projects/Python-Learning/08-interview-and-capstone/02-coding-challenges/
 ├── lesson.md (300 lines) - Pattern guide
 ├── exercises.py (300+ lines) - 20 challenges
 └── solutions.py (700+ lines) - Complete solutions
@@ -263,7 +263,7 @@ By completing Phase 7, you will:
 
 ### 03-ML Fundamentals Review
 ```
-/Users/danielberger/Projects/Python-Learning/07-interview-and-capstone/03-ml-fundamentals-review/
+/Users/danielberger/Projects/Python-Learning/08-interview-and-capstone/03-ml-fundamentals-review/
 ├── lesson.md (500+ lines) - Speed review
 ├── exercises.py (300+ lines) - 15 questions
 └── solutions.py (500+ lines) - Answers + formulas
@@ -271,13 +271,13 @@ By completing Phase 7, you will:
 
 ### 04-Behavioral Prep
 ```
-/Users/danielberger/Projects/Python-Learning/07-interview-and-capstone/04-behavioral-prep/
+/Users/danielberger/Projects/Python-Learning/08-interview-and-capstone/04-behavioral-prep/
 └── lesson.md (400+ lines) - Behavioral guide
 ```
 
 ### Capstone
 ```
-/Users/danielberger/Projects/Python-Learning/07-interview-and-capstone/capstone/
+/Users/danielberger/Projects/Python-Learning/08-interview-and-capstone/capstone/
 ├── README.md (250+ lines) - Complete documentation
 ├── Dockerfile - Multi-stage build
 ├── docker-compose.yml - Local deployment
@@ -295,7 +295,7 @@ By completing Phase 7, you will:
 
 ### Root
 ```
-/Users/danielberger/Projects/Python-Learning/07-interview-and-capstone/
+/Users/danielberger/Projects/Python-Learning/08-interview-and-capstone/
 └── quiz.md (400+ lines) - 20-question self-assessment
 ```
 
@@ -322,7 +322,7 @@ You now have:
 - ✓ Production capstone system
 - ✓ Self-assessment quiz
 
-**You've completed 7 full phases of ML learning. Now go ace that interview!**
+**You've completed 8 full phases of ML learning. Now go ace that interview!**
 
 Remember: Interviews test not just knowledge, but communication. Practice explaining your thinking out loud. Be confident. Be yourself.
 

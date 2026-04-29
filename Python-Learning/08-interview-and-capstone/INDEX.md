@@ -1,4 +1,4 @@
-# Phase 7: Interview Prep & Capstone - Complete Index
+# Phase 8: Interview Prep & Capstone - Complete Index
 
 ## Quick Navigation
 
@@ -39,7 +39,7 @@
   - Interview red flags and last-minute tips
 
 - **exercises.py**: 15 rapid-fire review questions
-  - Questions span all 7 phases of curriculum
+  - Questions span all 8 phases of curriculum
   - Mix of conceptual and practical
   - Designed for quick refresh
 
@@ -195,7 +195,7 @@
 ### Quiz ⭐ NEW
 **Path**: `/quiz.md`
 
-Comprehensive 20-question self-assessment covering all 7 phases.
+Comprehensive 20-question self-assessment covering all 8 phases.
 
 **Question Breakdown**:
 - 5 Easy questions (basics, operators, data structures)
@@ -234,7 +234,7 @@ Comprehensive 20-question self-assessment covering all 7 phases.
 ---
 
 ### Summary Document
-**Path**: `/PHASE-7-COMPLETE.md`
+**Path**: `/PHASE-8-COMPLETE.md`
 
 Complete summary of everything created, with:
 - File inventory (22 files, 6000+ lines)
@@ -248,9 +248,9 @@ Complete summary of everything created, with:
 ## Complete File List
 
 ```
-07-interview-and-capstone/
+08-interview-and-capstone/
 ├── INDEX.md (this file)
-├── PHASE-7-COMPLETE.md (summary)
+├── PHASE-8-COMPLETE.md (summary)
 ├── quiz.md (20-question assessment)
 │
 ├── 01-system-design/ (pre-existing)

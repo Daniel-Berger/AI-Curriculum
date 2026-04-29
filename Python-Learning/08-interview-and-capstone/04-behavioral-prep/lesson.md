@@ -372,3 +372,273 @@ You already have the technical skills. This is about showing you're a well-round
 Practice your stories until they feel natural (not robotic). Then be yourself. The best interviews are conversations, not interrogations.
 
 You've got this. Now go tell them why you're great.
+
+---
+
+## SE-Specific STAR Stories
+
+The following story templates address behavioral questions that are unique to
+Solutions Engineer interviews. These go beyond generic behavioral questions --
+they test customer empathy, cross-functional judgment, and the ability to
+translate between technical and business contexts.
+
+Prepare a polished version of each story using your real experiences. If you
+do not have a direct experience for a scenario, adapt a related experience
+and be honest about the context.
+
+---
+
+### 11. Tell Me About Handling a Customer Escalation
+
+This question tests your ability to stay calm under pressure, take ownership,
+and turn a negative situation into a trust-building opportunity.
+
+**Situation** (set the scene):
+- A key customer (mention their size, industry, and importance)
+- Something went wrong (outage, bug, missed expectation, broken feature)
+- The customer was upset (describe their emotional state and business impact)
+- Multiple stakeholders were involved (their side and yours)
+
+**Task** (your specific responsibility):
+- You were the primary technical point of contact
+- You needed to resolve the issue AND preserve the relationship
+- There was time pressure (SLA, contract renewal, executive attention)
+
+**Action** (what YOU did -- be specific):
+- How you acknowledged the customer's frustration without being defensive
+- How you communicated internally to mobilize the right resources
+- The specific diagnostic or resolution steps you took
+- How you kept the customer updated throughout the process
+- What you did AFTER the immediate issue was resolved (follow-up, prevention)
+
+**Result** (quantified outcome):
+- Issue resolution time
+- Customer sentiment change (did they renew? expand? provide a reference?)
+- Process improvements you implemented to prevent recurrence
+- What you learned about handling escalations
+
+**Example framework**:
+"At [company], our largest healthcare customer -- $500K ARR -- experienced a
+critical API outage during their busiest period. Their VP of Engineering called
+our CEO directly. I took the lead on the technical response: I got on a bridge
+call with the customer within 15 minutes, provided hourly updates, coordinated
+with our infrastructure team to identify the root cause (a misconfigured
+database connection pool), and had the issue resolved in 3 hours. After
+resolution, I wrote a detailed incident report and presented it to the
+customer's leadership team with a concrete prevention plan. The customer not
+only renewed but expanded their contract by 40%. I learned that customers
+do not expect perfection -- they expect transparency and ownership."
+
+**Key tips**:
+- Show you OWNED the situation (did not pass the buck)
+- Demonstrate empathy before jumping to solutions
+- Show your communication cadence (regular updates, not silence)
+- End with what you changed so it would not happen again
+
+---
+
+### 12. Tell Me About Delivering a Technical Workshop
+
+This question tests your ability to teach, present to a group, adapt to your
+audience, and handle questions under pressure.
+
+**Situation**:
+- The customer's team (size, technical level, goals)
+- Why the workshop was needed (new product adoption, best practices, troubleshooting)
+- Any challenges going in (skeptical audience, tight timeline, remote vs in-person)
+
+**Task**:
+- What you needed to accomplish (specific learning outcomes)
+- Your role: sole presenter? co-presenting with a teammate?
+- Timeline: how long to prepare, how long was the workshop?
+
+**Action**:
+- How you assessed the audience's skill level beforehand
+- How you structured the workshop (theory vs hands-on ratio)
+- A specific moment where you had to adapt (a question you did not expect,
+  a demo that broke, an audience member who was disengaged or confrontational)
+- How you made it interactive (exercises, Q&A, pair programming)
+- How you handled different skill levels in the same room
+
+**Result**:
+- Feedback scores or qualitative feedback
+- Measurable outcome (team started building, adoption increased, support tickets decreased)
+- Follow-up actions (office hours, documentation, Slack channel)
+- What you would do differently next time
+
+**Example framework**:
+"I designed and delivered a half-day workshop for a financial services customer's
+engineering team -- 15 developers ranging from junior to staff level. The goal
+was to get them from zero to building a working RAG application using our API.
+I structured it as 30% concepts, 70% hands-on coding, with a paired exercise
+so experienced developers could help less experienced ones. Midway through, I
+realized the senior engineers were bored with the basics, so I pivoted: I gave
+them an advanced challenge (optimizing retrieval accuracy) while continuing
+the core exercises with the rest of the group. Post-workshop survey scored
+4.7/5.0, and the team had a working prototype in production within 3 weeks.
+I learned that the best workshops treat the audience as collaborators, not
+students."
+
+**Key tips**:
+- Show preparation AND adaptability
+- Demonstrate awareness of different audience levels
+- Include a specific moment where you pivoted or improvised
+- Quantify the outcome (not just "it went well")
+
+---
+
+### 13. Tell Me About Managing Competing Customer Priorities
+
+This question tests your organizational skills, judgment about where to invest
+your time, and ability to communicate tradeoffs.
+
+**Situation**:
+- Multiple customers needed your attention simultaneously
+- Describe 2-3 specific customers and what they needed
+- There was a genuine conflict (you could not do everything at once)
+- Stakes were real (revenue at risk, relationship at risk, deadline at risk)
+
+**Task**:
+- You needed to decide how to allocate your limited time
+- You needed to keep all customers feeling supported
+- You needed to communicate with your manager or team about the situation
+
+**Action**:
+- How you triaged (what criteria did you use to prioritize?)
+- How you communicated with the lower-priority customers (did you set
+  expectations, delegate, find alternatives?)
+- How you involved your team or manager (asking for help is a strength)
+- Specific steps you took to ensure nothing fell through the cracks
+- How you tracked multiple workstreams simultaneously
+
+**Result**:
+- All customers served (or honest about what was sacrificed and why)
+- What you learned about prioritization
+- Any process you put in place to handle this better in the future
+- Manager or team feedback
+
+**Example framework**:
+"During a single week, I had three competing priorities: Customer A (our
+largest account) needed help debugging a production issue, Customer B was in
+their final evaluation week before deciding on our product, and Customer C
+had a scheduled QBR that I had spent two weeks preparing for. I triaged by
+impact: Customer A's production issue was blocking their revenue, so I spent
+Monday-Tuesday resolving it. For Customer B, I asked a teammate to handle
+their Wednesday demo while I provided the technical brief and backup. For
+Customer C, I moved the QBR to Thursday and used the extra day to update the
+deck with fresh usage data. All three customers were served: A's issue was
+resolved, B signed the contract, and C's QBR led to an expansion discussion.
+I learned that the key is not doing everything yourself -- it is knowing
+when to ask for help and setting expectations proactively."
+
+**Key tips**:
+- Show your prioritization FRAMEWORK (not just what you did, but HOW you decided)
+- Demonstrate willingness to ask for help (SEs who try to do everything solo burn out)
+- Show proactive communication (customers knew what to expect)
+- Be honest about tradeoffs (you cannot claim everything went perfectly)
+
+---
+
+### 14. Tell Me About Translating Technical Limitations to Business Impact
+
+This question tests whether you can bridge the gap between engineering reality
+and business outcomes -- the core SE skill.
+
+**Situation**:
+- A customer wanted something (feature, performance target, timeline) that
+  was technically constrained
+- The technical limitation was real (not just a prioritization issue)
+- The customer's business depended on understanding the implications
+
+**Task**:
+- You needed to explain the limitation without losing the customer's confidence
+- You needed to provide alternatives or workarounds
+- You needed to quantify the business impact so they could make informed decisions
+
+**Action**:
+- How you translated the technical constraint into business terms
+  (not "the model has a 128K token context window" but "this means we can
+  process documents up to about 200 pages in a single pass")
+- What analogies or frameworks you used to make it accessible
+- How you quantified the impact (cost, time, accuracy, risk)
+- What alternatives you proposed
+- How you worked with engineering to explore options
+
+**Result**:
+- The customer understood the limitation AND felt supported
+- They made an informed decision based on your guidance
+- The relationship was maintained or strengthened
+- Engineering got clear, actionable feedback from the field
+
+**Example framework**:
+"A healthcare customer wanted our AI to achieve 99% accuracy on clinical note
+classification. Our model was achieving 94% on their data. Instead of just
+saying 'the model cannot do 99%,' I reframed it: 'At 94% accuracy with a
+human-in-the-loop review for low-confidence predictions, your team would
+manually review about 15% of notes instead of 100%. That still saves 85% of
+review time and catches the 6% the model misses.' I then showed them the cost
+analysis: the human review for the remaining 15% was $3 per note vs. $12 for
+reviewing everything manually. The customer agreed that 94% with human review
+was actually better than their original 99% target because it was achievable
+immediately and cost-effective. I also worked with our ML team to create a
+fine-tuning pipeline that improved accuracy to 96% over 3 months using the
+customer's correction data."
+
+**Key tips**:
+- Never just say "we cannot do that" -- always provide context and alternatives
+- Translate technical metrics to business outcomes (dollars, time, risk)
+- Show that you partnered with engineering (not just relayed bad news)
+- Demonstrate that the customer valued your honesty and expertise
+
+---
+
+### 15. Tell Me About Building a Successful POC
+
+This question tests your ability to scope, execute, and drive a technical proof
+of concept that leads to a business outcome (usually a signed deal).
+
+**Situation**:
+- A prospective or existing customer considering your product
+- They had specific requirements or concerns that needed validation
+- There was a timeline and success criteria
+- Competition may have been involved
+
+**Task**:
+- You needed to define the POC scope (what to prove, what to defer)
+- You needed to build and deliver the POC
+- You needed to demonstrate value clearly enough to drive a decision
+
+**Action**:
+- How you scoped the POC (what you included vs. excluded and why)
+- How you managed expectations about what a POC can and cannot prove
+- The technical work you did (architecture, implementation, testing)
+- How you involved the customer in the process (co-building vs. delivering a finished product)
+- How you defined and measured success criteria
+- How you presented results to decision-makers (not just technical team)
+
+**Result**:
+- POC outcome (met success criteria? what were the numbers?)
+- Business outcome (deal signed? expanded? timeline?)
+- What you learned about scoping POCs
+- How this experience improved your approach to future POCs
+
+**Example framework**:
+"A retail customer was evaluating three AI providers for product description
+generation. I scoped a 2-week POC focused on their hardest use case: generating
+descriptions for products with minimal metadata (just an image and a category).
+Instead of building everything myself, I co-built with their senior engineer --
+this gave them ownership and confidence in the solution. We defined three success
+metrics upfront: quality score (human-rated 1-5), generation speed (< 2 seconds),
+and cost per description (< $0.05). At the end of the POC, we scored 4.2/5.0
+on quality (vs. 3.8 from competitor A and 3.5 from competitor B), 1.1 seconds
+latency, and $0.03 per description. I presented the results to their VP of
+Product with a clear comparison table and a production deployment plan. They
+signed a $200K annual contract within two weeks of the POC ending. The key
+lesson: the best POCs are collaborative, not delivered as a black box."
+
+**Key tips**:
+- Show disciplined scoping (POCs that try to prove everything prove nothing)
+- Demonstrate customer collaboration (co-building builds trust and ownership)
+- Define success criteria BEFORE starting (not after you see the results)
+- Connect POC results to business outcomes (not just technical metrics)
+- Show competitive awareness without disparaging competitors

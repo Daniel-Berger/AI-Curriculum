@@ -2,7 +2,7 @@
 
 ### From Swift/iOS Developer to AI/ML Engineer
 
-A structured, self-paced curriculum designed for experienced Swift/iOS developers transitioning into Python-based AI/ML engineering. This program covers everything from Python fundamentals through production-grade LLM applications, totaling approximately **300 hours** of hands-on learning across 7 phases.
+A structured, self-paced curriculum designed for experienced Swift/iOS developers transitioning into Python-based AI/ML engineering. This program covers everything from Python fundamentals through applied AI engineering and production-grade LLM applications, totaling approximately **350 hours** of hands-on learning across 8 phases.
 
 ---
 
@@ -87,7 +87,8 @@ uv pip install -e ".[data-science]"    # Phase 2: Data Science Foundations
 uv pip install -e ".[ml]"             # Phase 3: Machine Learning
 uv pip install -e ".[deep-learning]"  # Phase 4: Deep Learning
 uv pip install -e ".[llm]"            # Phase 5: LLMs & Generative AI
-uv pip install -e ".[production]"     # Phase 6: Production Engineering
+uv pip install -e ".[applied-ai]"     # Phase 6: Applied AI Engineering
+uv pip install -e ".[production]"     # Phase 7: Production Engineering
 ```
 
 > **Note:** Each phase's dependency group includes all previous phases, so installing `.[ml]` also installs `.[data-science]` and the base dependencies automatically.
@@ -116,9 +117,10 @@ pytest
 | 3 | **Machine Learning** | 8 + project | 40h | `.[ml]` |
 | 4 | **Deep Learning** | 7 + project | 40h | `.[deep-learning]` |
 | 5 | **LLMs & Generative AI** | 12 + 2 projects | 60h | `.[llm]` |
-| 6 | **Production Engineering** | 7 + project | 40h | `.[production]` |
-| 7 | **Interview & Capstone** | 4 + capstone | 40h | `.[all]` |
-| | | **Total** | **~300h** | |
+| 6 | **Applied AI Engineering** | 10 + 2 projects | 50h | `.[applied-ai]` |
+| 7 | **Production Engineering** | 7 + project | 40h | `.[production]` |
+| 8 | **Interview & Capstone** | 5 + capstone | 40h | `.[all]` |
+| | | **Total** | **~350h** | |
 
 ---
 
@@ -193,7 +195,22 @@ Use the checkboxes below to track your progress through each phase and module.
 - [ ] Phase 5 Project: RAG System
 - [ ] Phase 5 Project: AI Agent
 
-### Phase 6: Production Engineering (40h)
+### Phase 6: Applied AI Engineering (50h)
+
+- [ ] 01 - Customer Integration Patterns
+- [ ] 02 - Cost & Performance Optimization
+- [ ] 03 - Evaluation & Quality Assurance
+- [ ] 04 - Conversation & Application Design
+- [ ] 05 - Enterprise Security & Compliance
+- [ ] 06 - Rapid Prototyping & Demos
+- [ ] 07 - Technical Communication
+- [ ] 08 - Multi-Provider & Multi-Modal AI
+- [ ] 09 - Observability for LLM Apps
+- [ ] 10 - Customer Scenario Simulation
+- [ ] Project: Customer POC Builder
+- [ ] Project: Debug & Optimize Challenge
+
+### Phase 7: Production Engineering (40h)
 
 - [ ] 01 - FastAPI Fundamentals
 - [ ] 02 - FastAPI Advanced
@@ -202,14 +219,15 @@ Use the checkboxes below to track your progress through each phase and module.
 - [ ] 05 - Monitoring and Observability
 - [ ] 06 - Evaluation and Safety
 - [ ] 07 - Cloud Deployment
-- [ ] Phase 6 Project
+- [ ] Phase 7 Project
 
-### Phase 7: Interview & Capstone (40h)
+### Phase 8: Interview & Capstone (40h)
 
 - [ ] 01 - System Design
 - [ ] 02 - Coding Challenges
 - [ ] 03 - ML Fundamentals Review
 - [ ] 04 - Behavioral Prep
+- [ ] 05 - Solutions Engineer Prep
 - [ ] Capstone Project
 
 ---
@@ -283,7 +301,21 @@ Python-Learning/
 │   ├── project-rag-system/
 │   └── project-ai-agent/
 │
-├── 06-production-engineering/         # Phase 6: Production (40h)
+├── 06-applied-ai-engineering/         # Phase 6: Applied AI Engineering (50h)
+│   ├── 01-customer-integration-patterns/
+│   ├── 02-cost-and-performance-optimization/
+│   ├── 03-evaluation-and-quality-assurance/
+│   ├── 04-conversation-and-application-design/
+│   ├── 05-enterprise-security-and-compliance/
+│   ├── 06-rapid-prototyping-and-demos/
+│   ├── 07-technical-communication/
+│   ├── 08-multi-provider-and-multi-modal/
+│   ├── 09-observability-for-llm-apps/
+│   ├── 10-customer-scenario-simulation/
+│   ├── project-customer-poc/
+│   └── project-debug-optimize/
+│
+├── 07-production-engineering/         # Phase 7: Production (40h)
 │   ├── 01-fastapi-fundamentals/
 │   ├── 02-fastapi-advanced/
 │   ├── 03-docker-for-ml/
@@ -293,11 +325,12 @@ Python-Learning/
 │   ├── 07-cloud-deployment/
 │   └── project/
 │
-└── 07-interview-and-capstone/         # Phase 7: Interview & Capstone (40h)
+└── 08-interview-and-capstone/         # Phase 8: Interview & Capstone (40h)
     ├── 01-system-design/
     ├── 02-coding-challenges/
     ├── 03-ml-fundamentals-review/
     ├── 04-behavioral-prep/
+    ├── 05-solutions-engineer-prep/
     └── capstone/
 ```
 
@@ -338,14 +371,14 @@ This curriculum is specifically structured for developers who already have stron
 
 ### Time Commitment
 
-At approximately **300 hours** total, here are some example pacing schedules:
+At approximately **350 hours** total, here are some example pacing schedules:
 
 | Schedule | Hours/Week | Duration |
 |----------|:----------:|:--------:|
-| Intensive (full-time) | 40h | ~8 weeks |
-| Aggressive (part-time) | 20h | ~15 weeks |
-| Steady | 10h | ~30 weeks |
-| Relaxed | 5h | ~60 weeks |
+| Intensive (full-time) | 40h | ~9 weeks |
+| Aggressive (part-time) | 20h | ~18 weeks |
+| Steady | 10h | ~35 weeks |
+| Relaxed | 5h | ~70 weeks |
 
 ### Tips for Success
 
@@ -353,7 +386,7 @@ At approximately **300 hours** total, here are some example pacing schedules:
 - **Draw parallels to Swift.** When learning a new concept, think about how you would solve the same problem in Swift. This accelerates understanding.
 - **Use the REPL.** Python's interactive interpreter is one of its greatest strengths. Use `python` or `ipython` to experiment constantly.
 - **Read error messages carefully.** Python's tracebacks are verbose and informative. Train yourself to read them bottom-up.
-- **Build something real.** The capstone project in Phase 7 is your chance to combine everything into a portfolio-worthy project.
+- **Build something real.** The capstone project in Phase 8 is your chance to combine everything into a portfolio-worthy project.
 
 ---
 
